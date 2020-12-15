@@ -4,12 +4,11 @@
 <meta charset="utf-8">
 <title>Canvas</title>
 <script type = "text/javascript">
+/*global window, document */
 (function () {
     'use strict';
 
-    var canvas = document.createElement('canvas'),
-        context = null,
-        rect = {x:0.0, y:0.0, width:100.0, height:100.0, deg:0.0};
+    var canvas, context, rect;
 
     function draw() {
         /* clearRect not needed; we fill the entire canvas in next statement
@@ -19,13 +18,13 @@
         context.save();
 
         // move rotation point to center of rect
-        context.translate(rect.x + rect.width/2, rect.y + rect.height/2);
+        context.translate(rect.x + rect.width / 2, rect.y + rect.height / 2);
         rect.deg = rect.deg < 360.0 ? rect.deg + 1.0 : 0.0;
         context.rotate(rect.deg * (Math.PI / 180));
 
         context.beginPath();
         // use relative coords after translate
-        context.rect(-rect.width/2, -rect.height/2, rect.width, rect.height);
+        context.rect(-rect.width / 2, -rect.height / 2, rect.width, rect.height);
         context.strokeStyle = "white";
         context.lineWidth = "2";
         context.stroke();
@@ -34,16 +33,19 @@
     }
 
     document.addEventListener('DOMContentLoaded', function () {
+        canvas = document.createElement('canvas');
         canvas.width = 400;
         canvas.height = 400;
         document.body.appendChild(canvas);
+
         context = canvas.getContext('2d');
 
+        rect = {x: 0.0, y: 0.0, width: 100.0, height: 100.0, deg: 0.0};
         // center rect in canvas
-        rect.x = canvas.width/2 - rect.width/2;
-        rect.y = canvas.height/2 - rect.height/2;
-        
-        setInterval(draw, 10);  // milliseconds
+        rect.x = canvas.width / 2 - rect.width / 2;
+        rect.y = canvas.height / 2 - rect.height / 2;
+
+        window.setInterval(draw, 10);  // milliseconds
     });
 }());
 </script>
