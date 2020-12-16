@@ -10,6 +10,10 @@
 
     var canvas, context, rect;
 
+    function update() {
+        rect.deg = rect.deg < 360.0 ? rect.deg + 1.0 : 0.0;
+    }
+    
     function draw() {
         /* clearRect not needed; we fill the entire canvas in next statement
         context.clearRect(0, 0, canvas.width, canvas.height); */
@@ -19,7 +23,6 @@
 
         // move rotation point to center of rect
         context.translate(rect.x + rect.width / 2, rect.y + rect.height / 2);
-        rect.deg = rect.deg < 360.0 ? rect.deg + 1.0 : 0.0;
         context.rotate(rect.deg * (Math.PI / 180));
 
         context.beginPath();
@@ -32,6 +35,11 @@
         context.restore();
     }
 
+    function mainloop() {
+        update();
+        draw();
+    }
+    
     document.addEventListener('DOMContentLoaded', function () {
         canvas = document.createElement('canvas');
         canvas.width = 400;
@@ -45,7 +53,7 @@
         rect.x = canvas.width / 2 - rect.width / 2;
         rect.y = canvas.height / 2 - rect.height / 2;
 
-        window.setInterval(draw, 10);  // milliseconds
+        window.setInterval(mainloop, 10);  // milliseconds
     });
 }());
 </script>
